@@ -2,15 +2,29 @@ import React, { useEffect, useState } from 'react';
 import Square from '@components/Square';
 import calculateWinner from '@helpers/calculateWinner';
 
+type Player = {
+  symbol: string;
+  color: string;
+};
+
 export default function Board() {
   const [size, setSize] = useState(3);
   const [winningLength, setWinningLength] = useState(3);
   const [squares, setSquares] = useState(Array(size * size).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
 
+  const [player1, setPlayer1] = useState<Player>({
+    symbol: 'X',
+    color: '#0000FF',
+  });
+  const [player2, setPlayer2] = useState<Player>({
+    symbol: 'O',
+    color: '#FF0000',
+  });
+
   useEffect(() => {
     resetGame();
-  }, [size, winningLength]);
+  }, [size, winningLength, player1, player2]);
 
   const resetGame = () => {
     setSquares(Array(size * size).fill(null));
@@ -22,7 +36,7 @@ export default function Board() {
     if (calculateWinner(newSquares, winningLength) || newSquares[i]) {
       return;
     }
-    newSquares[i] = xIsNext ? 'X' : 'O';
+    newSquares[i] = xIsNext ? player1.symbol : player2.symbol;
     setSquares(newSquares);
     setXIsNext(!xIsNext);
   };
@@ -31,10 +45,16 @@ export default function Board() {
   if (winner) {
     status = 'Winner: ' + winner;
   } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+    status = `Next player: ${xIsNext ? player1.symbol : player2.symbol}`;
   }
   const renderSquare = (i: number) => (
-    <Square value={squares[i]} onClick={() => handleClick(i)} />
+    <Square
+      value={squares[i]}
+      onClick={() => handleClick(i)}
+      playerColor={
+        squares[i] === player1.symbol ? player1.color : player2.color
+      }
+    />
   );
 
   return (
@@ -57,6 +77,34 @@ export default function Board() {
           min="3"
           max={size}
           onChange={(e) => setWinningLength(Number(e.target.value))}
+        />
+      </div>
+      <div>
+        <label>Player 1 Symbol: </label>
+        <input
+          type="text"
+          value={player1.symbol}
+          onChange={(e) => setPlayer1({ ...player1, symbol: e.target.value })}
+        />
+        <label>Player 1 Color: </label>
+        <input
+          type="color"
+          value={player1.color}
+          onChange={(e) => setPlayer1({ ...player1, color: e.target.value })}
+        />
+      </div>
+      <div>
+        <label>Player 2 Symbol: </label>
+        <input
+          type="text"
+          value={player2.symbol}
+          onChange={(e) => setPlayer2({ ...player2, symbol: e.target.value })}
+        />
+        <label>Player 2 Color: </label>
+        <input
+          type="color"
+          value={player2.color}
+          onChange={(e) => setPlayer2({ ...player2, color: e.target.value })}
         />
       </div>
       {[...Array(size)].map((_, row) => (
