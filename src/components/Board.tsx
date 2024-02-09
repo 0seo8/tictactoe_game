@@ -11,7 +11,7 @@ export default function Board() {
   const [size, setSize] = useState(3);
   const [winningLength, setWinningLength] = useState(3);
   const [squares, setSquares] = useState(Array(size * size).fill(null));
-  const [xIsNext, setXIsNext] = useState(true);
+  const [firstPlayer, setFirstPlayer] = useState<Player | null>(null);
 
   const [player1, setPlayer1] = useState<Player>({
     symbol: 'X',
@@ -28,7 +28,9 @@ export default function Board() {
 
   const resetGame = () => {
     setSquares(Array(size * size).fill(null));
-    setXIsNext(true);
+    if (!firstPlayer) {
+      setFirstPlayer(Math.random() < 0.5 ? player1 : player2);
+    }
   };
 
   const handleClick = (i: number) => {
@@ -36,16 +38,17 @@ export default function Board() {
     if (calculateWinner(newSquares, winningLength) || newSquares[i]) {
       return;
     }
-    newSquares[i] = xIsNext ? player1.symbol : player2.symbol;
+    newSquares[i] =
+      firstPlayer?.symbol === player1.symbol ? player1.symbol : player2.symbol;
     setSquares(newSquares);
-    setXIsNext(!xIsNext);
+    setFirstPlayer(firstPlayer === player1 ? player2 : player1);
   };
   const winner = calculateWinner(squares, winningLength);
   let status;
   if (winner) {
     status = 'Winner: ' + winner;
   } else {
-    status = `Next player: ${xIsNext ? player1.symbol : player2.symbol}`;
+    status = `Next player: ${firstPlayer?.symbol || player1.symbol}`;
   }
   const renderSquare = (i: number) => (
     <Square
@@ -106,6 +109,20 @@ export default function Board() {
           value={player2.color}
           onChange={(e) => setPlayer2({ ...player2, color: e.target.value })}
         />
+      </div>
+      <div>
+        <label>First Player: </label>
+        <select
+          value={firstPlayer?.symbol || ''}
+          onChange={(e) =>
+            setFirstPlayer(
+              e.target.value === player1.symbol ? player1 : player2,
+            )
+          }
+        >
+          <option value={player1.symbol}>{player1.symbol}</option>
+          <option value={player2.symbol}>{player2.symbol}</option>
+        </select>
       </div>
       {[...Array(size)].map((_, row) => (
         <div key={row}>
