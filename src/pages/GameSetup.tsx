@@ -19,22 +19,25 @@ export default function GameSetup() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleStartGame = () => {
-    navigate('/game');
     dispatch(
       setGameConfig({
         size,
         winningLength,
-        firstPlayer,
+        firstPlayer: !firstPlayer
+          ? Math.random() < 0.5
+            ? player1
+            : player2
+          : firstPlayer,
         player1,
         player2,
       }),
     );
+    navigate('/game');
   };
 
   return (
     <main className="p-10 bg-gray-100 flex flex-col text-center gap-3">
       <h1 className="text-3xl font-bold mb-4">게임 설정</h1>
-      {/*<div>{status}</div>*/}
       <div>
         <label>Select Board Size: </label>
         <input
