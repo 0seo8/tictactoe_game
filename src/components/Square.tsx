@@ -8,9 +8,14 @@ type Props = {
 export default function Square({ value, onClick, playerColor }: Props) {
   const style = value ? { color: playerColor } : {};
 
+  console.log('value', value);
   return (
-    <button className="square" onClick={onClick} style={style}>
+    <div
+      className="bg-gray-200 border border-gray-300 w-12 h-12 flex items-center justify-center hover:cursor-pointer hover:bg-gray-300"
+      onClick={onClick}
+      style={style}
+    >
       {value}
-    </button>
+    </div>
   );
 }

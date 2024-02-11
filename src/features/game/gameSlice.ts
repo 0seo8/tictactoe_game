@@ -49,9 +49,13 @@ const initialState: GameState = {
 export const gameSlice = createSlice({
   name: 'game',
   initialState,
-  reducers: {},
+  reducers: {
+    setGameConfig: (state, action: PayloadAction<Partial<GameState>>) => {
+      return { ...state, ...action.payload };
+    },
+  },
 });
 
-export const {} = gameSlice.actions;
+export const { setGameConfig } = gameSlice.actions;
 
 export default gameSlice.reducer;
