@@ -6,12 +6,14 @@ import GameRecord from '@/pages/GameRecord';
 
 const App: React.FC = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="setup" element={<GameSetup />} />
-      <Route path="game" element={<GameBoard />} />
-      <Route path="records" element={<GameRecord />} />
-    </Routes>
+    <main className="w-full flex justify-center pt-8">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="setup" element={<GameSetup />} />
+        <Route path="game" element={<GameBoard />} />
+        <Route path="records" element={<GameRecord />} />
+      </Routes>
+    </main>
   );
 };
 
