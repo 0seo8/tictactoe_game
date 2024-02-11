@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Square from '@components/Square';
 import calculateWinner from '@helpers/calculateWinner';
-
-type Player = {
-  symbol: string;
-  color: string;
-};
-
-type HistoryItem = {
-  squares: (string | null)[];
-  player: Player | null;
-};
+import { HistoryItem, Player } from '@features/game/gameSlice';
 
 export default function Board() {
   const [size, setSize] = useState(3);
@@ -22,7 +13,6 @@ export default function Board() {
       player: null,
     },
   ]);
-  const [stepNumber, setStepNumber] = useState(0);
   const [firstPlayer, setFirstPlayer] = useState<Player | null>(null);
   const [player1, setPlayer1] = useState<Player>({
     symbol: 'X',
@@ -32,6 +22,8 @@ export default function Board() {
     symbol: 'O',
     color: '#FF0000',
   });
+
+  const [stepNumber, setStepNumber] = useState(0);
   const [turnCount, setTurnCount] = useState({
     [player1.symbol]: 0,
     [player2.symbol]: 0,
