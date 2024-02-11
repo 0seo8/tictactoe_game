@@ -3,6 +3,7 @@ import Square from '@components/Square';
 import calculateWinner from '@helpers/calculateWinner';
 import { useAppSelector } from '@app/hooks';
 import { HistoryItem } from '@features/game/gameSlice';
+import CustomButton from '@components/ui/CustomButton';
 
 export default function SectionBoard() {
   const handleClick = (i: number) => {
@@ -46,6 +47,10 @@ export default function SectionBoard() {
   const [currentPlayer, setCurrentPlayer] = useState(firstPlayer);
   const [isGameOver, setIsGameOver] = useState(false);
   const [stepNumber, setStepNumber] = useState(0);
+  const [turnCount, setTurnCount] = useState({
+    [player1.symbol]: 0,
+    [player2.symbol]: 0,
+  });
   const [history, setHistory] = useState<HistoryItem[]>([
     {
       squares: Array(size * size).fill(null),
@@ -64,6 +69,17 @@ export default function SectionBoard() {
     />
   );
 
+  const handleUndo = () => {
+    if (stepNumber > 0 && turnCount[currentPlayer!.symbol] < 3 && !isGameOver) {
+      setStepNumber(stepNumber - 1);
+      setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
+      setTurnCount({
+        ...turnCount,
+        [currentPlayer!.symbol]: turnCount[currentPlayer!.symbol] + 1,
+      });
+    }
+  };
+
   return (
     <section className="w-full flex max-w-[850px] p-4">
       {[...Array(size)].map((_, row) => (
@@ -71,6 +87,17 @@ export default function SectionBoard() {
           {[...Array(size)].map((_, col) => renderSquare(row * size + col))}
         </div>
       ))}
+      <div>
+        <h2>남은 되돌리기 횟수</h2>
+        <div>Player1: ({turnCount[player1!.symbol]} /3)</div>
+        <div>Player2: ({turnCount[player2!.symbol]} /3) </div>
+      </div>
+      {isGameOver ||
+        (!firstPlayer && (
+          <div className="flex items-center mt-6 justify-center">
+            <CustomButton text="되돌리기" onClick={handleUndo} />
+          </div>
+        ))}
     </section>
   );
 }
