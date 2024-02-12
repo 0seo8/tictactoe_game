@@ -3,7 +3,6 @@ const calculateWinner = (
   winningLength: number,
 ): string | null => {
   const size = Math.sqrt(squares.length);
-
   const checkLine = (line: number[]): string | null => {
     const [a, b, c] = line;
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -44,12 +43,11 @@ const calculateWinner = (
     for (let j = 0; j <= size - winningLength; j++) {
       const diagonal1 = Array.from(
         { length: winningLength },
-        (_, index) => (i + index) * (size + 1) + j + index,
+        (_, index) => (i + index) * size + j + index,
       );
       const diagonal2 = Array.from(
         { length: winningLength },
-        (_, index) =>
-          (i + index) * (size - 1) + (j + winningLength - 1 - index),
+        (_, index) => (i + index) * size + (j + winningLength - 1 - index),
       );
       const winner1 = checkLine(diagonal1);
       const winner2 = checkLine(diagonal2);
