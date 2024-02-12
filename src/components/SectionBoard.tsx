@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import Square from '@components/Square';
 import calculateWinner from '@helpers/calculateWinner';
-import { useAppSelector } from '@app/hooks';
-import { HistoryItem, Player, setIsGameOver } from '@features/game/gameSlice';
+import { useAppDispatch, useAppSelector } from '@app/hooks';
+import {
+  HistoryItem,
+  Player,
+  setIsGameHistory,
+  setIsGameOver,
+} from '@features/game/gameSlice';
 
 type Props = {
   currentPlayer: Player | null;
@@ -20,6 +25,7 @@ export default function SectionBoard({
   const { size, player1, player2, winningLength, isGameOver } = useAppSelector(
     (state) => state.game,
   );
+  const dispatch = useAppDispatch();
   const [squares, setSquares] = useState(Array(size * size).fill(null));
   const [history, setHistory] = useState<HistoryItem[]>([
     {
@@ -54,10 +60,12 @@ export default function SectionBoard({
 
     const winner = calculateWinner(newSquares, winningLength);
     if (winner) {
-      setIsGameOver(true);
+      dispatch(setIsGameOver(true));
+      dispatch(setIsGameHistory(history));
       alert(`게임 종료! 승리자: ${winner}`);
     } else if (currentHistory.length === size * size) {
-      setIsGameOver(true);
+      dispatch(setIsGameOver(true));
+      dispatch(setIsGameHistory(history));
       alert('게임 종료! 무승부!');
     }
   };

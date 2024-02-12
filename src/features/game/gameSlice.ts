@@ -17,7 +17,7 @@ export interface GameState {
   player2: Player;
   firstPlayer: Player | null;
   squares: (string | null)[];
-  history: HistoryItem[];
+  historyItem: HistoryItem[];
   isGameOver: boolean;
 }
 
@@ -34,7 +34,7 @@ const initialState: GameState = {
   },
   firstPlayer: null,
   squares: [],
-  history: [
+  historyItem: [
     {
       squares: [],
       player: null,
@@ -53,9 +53,13 @@ export const gameSlice = createSlice({
     setIsGameOver: (state, action: PayloadAction<boolean>) => {
       state.isGameOver = action.payload;
     },
+    setIsGameHistory: (state, action: PayloadAction<HistoryItem[]>) => {
+      state.historyItem = action.payload;
+    },
   },
 });
 
-export const { setGameConfig, setIsGameOver } = gameSlice.actions;
+export const { setGameConfig, setIsGameOver, setIsGameHistory } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;
