@@ -10,6 +10,8 @@ type Props = {
   setCurrentPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
   stepNumber: number;
   setStepNumber: React.Dispatch<React.SetStateAction<number>>;
+  records: HistoryItem[];
+  setRecords: React.Dispatch<React.SetStateAction<HistoryItem[]>>;
 };
 
 export default function SectionBoard({
@@ -17,6 +19,8 @@ export default function SectionBoard({
   setCurrentPlayer,
   stepNumber,
   setStepNumber,
+  records,
+  setRecords,
 }: Props) {
   const { size, player1, player2, winningLength, isGameOver } = useAppSelector(
     (state) => state.game,
@@ -31,12 +35,12 @@ export default function SectionBoard({
   useGameStatusChecker({
     squares: history[stepNumber].squares,
     stepNumber,
-    history,
+    history: records,
   });
 
   const handleClick = (i: number) => {
     if (isGameOver) {
-      return alert('게임이 이미 종료되었습니다.');
+      return;
     }
     const currentHistory = history.slice(0, stepNumber + 1);
     const current = currentHistory[currentHistory.length - 1];
@@ -48,6 +52,13 @@ export default function SectionBoard({
       currentPlayer?.symbol === player1.symbol
         ? player1.symbol
         : player2.symbol;
+    setRecords([
+      ...records,
+      {
+        squares: newSquares,
+        player: currentPlayer,
+      },
+    ]);
     setHistory([
       ...currentHistory,
       {

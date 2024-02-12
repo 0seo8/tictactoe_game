@@ -5,17 +5,29 @@ import PlayerInfo from '@components/PlayerInfo';
 import { useState } from 'react';
 import { useAppSelector } from '@app/hooks';
 import ControlGameRevertConfig from '@components/ControlGameRevertConfig';
+import useGameStatusChecker from '@/hooks/useGameStatusCheck';
+import { HistoryItem } from '@features/game/gameSlice';
 
 export default function GameBoard() {
   const navigate = useNavigate();
-  const { player1, player2, firstPlayer, isGameOver } = useAppSelector(
-    (state) => state.game,
-  );
+  const { size, player1, player2, firstPlayer, isGameOver, squares } =
+    useAppSelector((state) => state.game);
   const [currentPlayer, setCurrentPlayer] = useState(firstPlayer);
   const [stepNumber, setStepNumber] = useState(0);
   const [turnCount, setTurnCount] = useState({
     [player1.symbol]: 0,
     [player2.symbol]: 0,
+  });
+  const [records, setRecords] = useState<HistoryItem[]>([
+    {
+      squares: Array(size * size).fill(null),
+      player: null,
+    },
+  ]);
+  useGameStatusChecker({
+    squares,
+    stepNumber,
+    history: records,
   });
 
   const handleUndo = () => {
@@ -38,6 +50,8 @@ export default function GameBoard() {
           setCurrentPlayer={setCurrentPlayer}
           stepNumber={stepNumber}
           setStepNumber={setStepNumber}
+          records={records}
+          setRecords={setRecords}
         />
         <div>
           <PlayerInfo currentPlayer={currentPlayer} />
