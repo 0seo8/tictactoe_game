@@ -17,7 +17,7 @@ export interface GameState {
   player2: Player;
   firstPlayer: Player | null;
   squares: (string | null)[];
-  historyItem: HistoryItem[];
+  accumulatedHistory: HistoryItem[];
   isGameOver: boolean;
 }
 
@@ -34,7 +34,7 @@ const initialState: GameState = {
   },
   firstPlayer: null,
   squares: [],
-  historyItem: [
+  accumulatedHistory: [
     {
       squares: [],
       player: null,
@@ -54,7 +54,7 @@ export const gameSlice = createSlice({
       state.isGameOver = action.payload;
     },
     setIsGameHistory: (state, action: PayloadAction<HistoryItem[]>) => {
-      state.historyItem = action.payload;
+      state.accumulatedHistory = action.payload;
     },
     setResetConfig: (state) => {
       return { ...state, ...initialState };

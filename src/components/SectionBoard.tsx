@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import Square from '@components/Square';
 import calculateWinner from '@helpers/calculateWinner';
-import { useAppDispatch, useAppSelector } from '@app/hooks';
-import {
-  HistoryItem,
-  Player,
-  setIsGameHistory,
-  setIsGameOver,
-} from '@features/game/gameSlice';
+import { useAppSelector } from '@app/hooks';
+import useGameStatusChecker from '@/hooks/useGameStatusCheck';
+import { HistoryItem, Player } from '@features/game/gameSlice';
 
 type Props = {
   currentPlayer: Player | null;
@@ -25,14 +21,19 @@ export default function SectionBoard({
   const { size, player1, player2, winningLength, isGameOver } = useAppSelector(
     (state) => state.game,
   );
-  const dispatch = useAppDispatch();
-  const [squares, setSquares] = useState(Array(size * size).fill(null));
   const [history, setHistory] = useState<HistoryItem[]>([
     {
       squares: Array(size * size).fill(null),
       player: null,
     },
   ]);
+
+  useGameStatusChecker({
+    squares: history[stepNumber].squares,
+    stepNumber,
+    history,
+  });
+
   const handleClick = (i: number) => {
     if (isGameOver) {
       return alert('게임이 이미 종료되었습니다.');
@@ -47,7 +48,6 @@ export default function SectionBoard({
       currentPlayer?.symbol === player1.symbol
         ? player1.symbol
         : player2.symbol;
-    setSquares(newSquares);
     setHistory([
       ...currentHistory,
       {
@@ -57,17 +57,6 @@ export default function SectionBoard({
     ]);
     setStepNumber(currentHistory.length);
     setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
-
-    const winner = calculateWinner(newSquares, winningLength);
-    if (winner) {
-      dispatch(setIsGameOver(true));
-      dispatch(setIsGameHistory(history));
-      alert(`게임 종료! 승리자: ${winner}`);
-    } else if (currentHistory.length === size * size) {
-      dispatch(setIsGameOver(true));
-      dispatch(setIsGameHistory(history));
-      alert('게임 종료! 무승부!');
-    }
   };
   const renderSquare = (i: number) => (
     <Square
