@@ -5,9 +5,7 @@ import CustomButton from '@components/ui/CustomButton';
 import { useNavigate } from 'react-router-dom';
 
 export default function GameRecord() {
-  const { accumulatedHistory, player2, player1 } = useAppSelector(
-    (state) => state.game,
-  );
+  const { accumulatedHistory, player1 } = useAppSelector((state) => state.game);
   const navigate = useNavigate();
   return (
     <div className="mt-8">
@@ -16,7 +14,7 @@ export default function GameRecord() {
         {accumulatedHistory.map((step, move) => (
           <li key={move} className="mb-4">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold">게임 #{move + 1}</span>
+              <span className="text-lg font-semibold">Turn {move + 1}</span>
               <span className="text-gray-600">
                 {step.player?.symbol === player1.symbol
                   ? 'player1'
