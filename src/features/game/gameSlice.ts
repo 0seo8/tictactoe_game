@@ -56,10 +56,17 @@ export const gameSlice = createSlice({
     setIsGameHistory: (state, action: PayloadAction<HistoryItem[]>) => {
       state.historyItem = action.payload;
     },
+    setResetConfig: (state) => {
+      return { ...state, ...initialState };
+    },
   },
 });
 
-export const { setGameConfig, setIsGameOver, setIsGameHistory } =
-  gameSlice.actions;
+export const {
+  setGameConfig,
+  setIsGameOver,
+  setIsGameHistory,
+  setResetConfig,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useAppSelector } from '@app/hooks';
 import BoardSnapshot from '@components/BoardSnapshot';
-import SectionBoard from '@components/SectionBoard';
+import CustomButton from '@components/ui/CustomButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function GameRecord() {
   const { historyItem, player2, player1 } = useAppSelector(
     (state) => state.game,
   );
+  const navigate = useNavigate();
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">기록된 게임 보기</h2>
@@ -27,6 +29,12 @@ export default function GameRecord() {
           </li>
         ))}
       </ul>
+      <div className="flex items-center mt-6 justify-center">
+        <CustomButton
+          text="홈으로"
+          onClick={() => navigate('/')}
+        ></CustomButton>
+      </div>
     </div>
   );
 }
