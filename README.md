@@ -1,5 +1,8 @@
 # 틱택토 게임
 
+## 배포
+https://tictactoe-game-phi.vercel.app/
+
 ## **개발환경**
 
 - node v18.17.0
