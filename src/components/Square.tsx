@@ -10,7 +10,7 @@ export default function Square({ value, onClick, playerColor }: Props) {
 
   return (
     <div
-      className="bg-gray-200 border border-gray-300 w-12 h-12 flex items-center justify-center hover:cursor-pointer hover:bg-gray-300"
+      className="bg-gray-200 border border-gray-300 w-16 h-16 flex items-center justify-center hover:cursor-pointer hover:bg-gray-300"
       onClick={onClick}
       style={style}
     >

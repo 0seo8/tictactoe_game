@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Square from '@components/Square';
 import calculateWinner from '@helpers/calculateWinner';
 import { useAppSelector } from '@app/hooks';
-import { HistoryItem, Player } from '@features/game/gameSlice';
-import CustomButton from '@components/ui/CustomButton';
+import { HistoryItem, Player, setIsGameOver } from '@features/game/gameSlice';
 
 type Props = {
   currentPlayer: Player | null;
   setCurrentPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
+  stepNumber: number;
+  setStepNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function SectionBoard({
   currentPlayer,
   setCurrentPlayer,
+  stepNumber,
+  setStepNumber,
 }: Props) {
-  const { size, player1, player2, winningLength } = useAppSelector(
+  const { size, player1, player2, winningLength, isGameOver } = useAppSelector(
     (state) => state.game,
   );
   const [squares, setSquares] = useState(Array(size * size).fill(null));
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [stepNumber, setStepNumber] = useState(0);
-  const [turnCount, setTurnCount] = useState({
-    [player1.symbol]: 0,
-    [player2.symbol]: 0,
-  });
   const [history, setHistory] = useState<HistoryItem[]>([
     {
       squares: Array(size * size).fill(null),
@@ -76,17 +73,6 @@ export default function SectionBoard({
     />
   );
 
-  const handleUndo = () => {
-    if (stepNumber > 0 && turnCount[currentPlayer!.symbol] < 3 && !isGameOver) {
-      setStepNumber(stepNumber - 1);
-      setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
-      setTurnCount({
-        ...turnCount,
-        [currentPlayer!.symbol]: turnCount[currentPlayer!.symbol] + 1,
-      });
-    }
-  };
-
   return (
     <div className="w-full basis-3/5 min-w-0">
       <div className="flex items-center justify-center">
@@ -95,20 +81,6 @@ export default function SectionBoard({
             {[...Array(size)].map((_, col) => renderSquare(row * size + col))}
           </div>
         ))}
-      </div>
-      <div className="flex justify-between w-full">
-        <div>
-          <h2>남은 되돌리기 횟수</h2>
-          <div>Player1: ({turnCount[player1!.symbol]} /3)</div>
-          <div>Player2: ({turnCount[player2!.symbol]} /3) </div>
-        </div>
-        {isGameOver || (
-          <div className="flex items-center mt-6 justify-center">
-            {stepNumber !== 0 && (
-              <CustomButton text="되돌리기" onClick={handleUndo} />
-            )}
-          </div>
-        )}
       </div>
     </div>
   );

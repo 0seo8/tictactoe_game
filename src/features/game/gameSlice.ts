@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface PlayerConfig {
-  mark: string;
-  color: string;
-}
-
 export type Player = {
   symbol: string;
   color: string;
@@ -23,6 +18,7 @@ export interface GameState {
   firstPlayer: Player | null;
   squares: (string | null)[];
   history: HistoryItem[];
+  isGameOver: boolean;
 }
 
 const initialState: GameState = {
@@ -44,6 +40,7 @@ const initialState: GameState = {
       player: null,
     },
   ],
+  isGameOver: false,
 };
 
 export const gameSlice = createSlice({
@@ -53,9 +50,12 @@ export const gameSlice = createSlice({
     setGameConfig: (state, action: PayloadAction<Partial<GameState>>) => {
       return { ...state, ...action.payload };
     },
+    setIsGameOver: (state, action: PayloadAction<boolean>) => {
+      state.isGameOver = action.payload;
+    },
   },
 });
 
-export const { setGameConfig } = gameSlice.actions;
+export const { setGameConfig, setIsGameOver } = gameSlice.actions;
 
 export default gameSlice.reducer;
