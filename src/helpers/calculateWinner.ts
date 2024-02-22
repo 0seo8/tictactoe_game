@@ -11,6 +11,7 @@ const checkHorizontal = (
   size: number,
   winningLength: number,
 ): SquareValue => {
+  // FIXME: for문 중첩 피해보기
   for (let i = 0; i < size; i++) {
     for (let j = 0; j <= size - winningLength; j++) {
       const horizontalLine = Array.from(

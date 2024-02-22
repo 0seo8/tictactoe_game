@@ -3,12 +3,16 @@ import CustomButton from '@components/ui/CustomButton';
 import { useAppSelector } from '@app/hooks';
 import { Player } from '@features/game/gameSlice';
 
-type Props = {
+interface TurnCount {
+  [symbol: string]: number;
+}
+
+interface Props {
   currentPlayer: Player | null;
-  turnCount: { [p: string]: number };
+  turnCount: TurnCount;
   stepNumber: number;
   handleUndo: () => void;
-};
+}
 
 export default function ControlGameRevertConfig({
   currentPlayer,
