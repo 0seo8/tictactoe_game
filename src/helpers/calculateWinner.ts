@@ -1,13 +1,14 @@
+// FIXME: 대각선, 세로, 가로 함수 분리
+
 const calculateWinner = (
   squares: (string | null)[],
   winningLength: number,
 ): string | null => {
   const size = Math.sqrt(squares.length);
   const checkLine = (line: number[]): string | null => {
-    const [a, b, c] = line;
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a] as string;
-    }
+    let marker = squares[line[0]];
+    let isVictory = line.every((value) => squares[value] === marker);
+    if (isVictory) return marker;
     return null;
   };
 
