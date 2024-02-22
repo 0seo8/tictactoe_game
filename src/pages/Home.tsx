@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CustomButton from '@components/ui/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@app/hooks';
 import { setResetConfig } from '@features/game/gameSlice';
+import ModalPortal from '@components/ModalPortal';
+import GameModal from '@components/GameModal';
 
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [openModal, setOpenModal] = useState(false);
   const setUpGameHandler = () => {
-    alert('기록된 게임이 있는 경우 게임이 초기화 됩니다.');
+    setOpenModal(true);
     dispatch(setResetConfig());
-    navigate('/setup');
+    // navigate('/setup');
   };
 
   return (
@@ -26,6 +29,13 @@ export default function Home() {
           onClick={() => navigate('/records')}
         ></CustomButton>
       </div>
+      {openModal && (
+        <ModalPortal>
+          <GameModal onClose={() => setOpenModal(false)}>
+            기록된 게임이 있는 경우 게임이 초기화 됩니다.
+          </GameModal>
+        </ModalPortal>
+      )}
     </main>
   );
 }
