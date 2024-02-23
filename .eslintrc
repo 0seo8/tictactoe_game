@@ -1,3 +1,68 @@
 {
-  "extends": ["react-app", "prettier"]
+  "extends": ["react-app", "prettier"],
+  "rules": {
+    "import/order" : [
+      "warn",
+      {
+        "groups": [
+          "type",
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "unknown"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "{react*,react*/**}",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "@tanstack*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/features/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/helpers/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/hooks/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/pages/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/components/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/styles/*",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }

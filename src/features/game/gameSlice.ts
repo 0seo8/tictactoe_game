@@ -10,7 +10,7 @@ export type HistoryItem = {
   player: Player | null;
 };
 
-export interface GameState {
+export type GameState = {
   size: number;
   winningLength: number;
   player1: Player;
@@ -19,7 +19,7 @@ export interface GameState {
   squares: (string | null)[];
   accumulatedHistory: HistoryItem[];
   isGameOver: boolean;
-}
+};
 
 const initialState: GameState = {
   size: 3,

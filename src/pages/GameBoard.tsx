@@ -1,12 +1,14 @@
-import CustomButton from '@components/ui/CustomButton';
-import { useNavigate } from 'react-router-dom';
-import SectionBoard from '@components/SectionBoard';
-import PlayerInfo from '@components/PlayerInfo';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { useAppSelector } from '@app/hooks';
 import ControlGameRevertConfig from '@components/ControlGameRevertConfig';
-import useGameStatusChecker from '@/hooks/useGameStatusCheck';
+import PlayerInfo from '@components/PlayerInfo';
+import SectionBoard from '@components/SectionBoard';
+import CustomButton from '@components/ui/CustomButton';
 import { HistoryItem } from '@features/game/gameSlice';
+
+import useGameStatusChecker from '@/hooks/useGameStatusCheck';
 
 export default function GameBoard() {
   const navigate = useNavigate();

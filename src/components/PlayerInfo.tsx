@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { useAppSelector } from '@app/hooks';
-import styled from 'styled-components';
 import { Player } from '@features/game/gameSlice';
+import styled from 'styled-components';
 
 const DynamicColorText = styled.div`
   font-size: large;

@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { useAppSelector } from '@app/hooks';
 import BoardSnapshot from '@components/BoardSnapshot';
 import CustomButton from '@components/ui/CustomButton';
-import { useNavigate } from 'react-router-dom';
 
 export default function GameRecord() {
   const { accumulatedHistory, player1 } = useAppSelector((state) => state.game);

@@ -1,7 +1,8 @@
 import React from 'react';
-import CustomButton from '@components/ui/CustomButton';
 import { useNavigate } from 'react-router-dom';
+
 import { useAppDispatch } from '@app/hooks';
+import CustomButton from '@components/ui/CustomButton';
 import { setResetConfig } from '@features/game/gameSlice';
 
 export default function Home() {

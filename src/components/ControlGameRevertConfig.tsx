@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import CustomButton from '@components/ui/CustomButton';
 import { useAppSelector } from '@app/hooks';
+import CustomButton from '@components/ui/CustomButton';
 import { Player } from '@features/game/gameSlice';
 
-interface TurnCount {
+type TurnCount = {
   [symbol: string]: number;
-}
+};
 
-interface Props {
+type Props = {
   currentPlayer: Player | null;
   turnCount: TurnCount;
   stepNumber: number;
   handleUndo: () => void;
-}
+};
 
 export default function ControlGameRevertConfig({
   currentPlayer,

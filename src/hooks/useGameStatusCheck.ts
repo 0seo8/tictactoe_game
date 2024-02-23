@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useAppDispatch, useAppSelector } from '@app/hooks';
 import {
   setIsGameOver,
@@ -5,7 +7,6 @@ import {
   HistoryItem,
 } from '@features/game/gameSlice';
 import calculateWinner from '@helpers/calculateWinner';
-import { useEffect } from 'react';
 
 type UseGameStatusCheckerProps = {
   squares: Array<null | string>;

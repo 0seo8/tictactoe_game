@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import Square from '@components/Square';
-import calculateWinner from '@helpers/calculateWinner';
+
 import { useAppSelector } from '@app/hooks';
-import useGameStatusChecker from '@/hooks/useGameStatusCheck';
+import Square from '@components/Square';
 import { HistoryItem, Player } from '@features/game/gameSlice';
+import calculateWinner from '@helpers/calculateWinner';
+
+import useGameStatusChecker from '@/hooks/useGameStatusCheck';
 
 type Props = {
   currentPlayer: Player | null;
